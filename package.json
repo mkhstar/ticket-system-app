@@ -1,0 +1,16 @@
+{
+  "name": "customer-ticket-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kusi Musah Hussein",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.5",
+    "mongoose": "^5.6.9"
+  }
+}
