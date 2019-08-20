@@ -46,4 +46,14 @@ A web application which a small business can see their customers' messages and r
 
  - This app can be deployed to a VPS or a PaaS
  - This is because it is a MEVN Stack app
+ 
+#### Run App Locally
+
+ - Make sure you have node 8 or above installed
+ - MongoDb is installed
+ - create secrets folder and keys.js, export default keys with object of key mongoDB with object of key uri with value you mongo uri
+ - build static assets in client folder by running cd client/ then npm run build
+ - come back to the root of the project with cd ..
+ - to serve app run npm run server then go to localhost:5000 to view app
+ - or npm run dev to modify the code and see changes
 
