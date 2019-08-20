@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const customer = require("./routes/customer");
 const admin = require("./routes/admin");
+const fileUpload = require("express-fileupload");
+const keys = require("./secrets/keys");
 
 const app = express();
 
@@ -17,10 +19,15 @@ app.get("/file/:filename", (req, res) => {
 });
 
 app.use(bodyParser.json());
+app.use(
+  fileUpload({
+    limits: { fileSize: 5 * 1024 * 1024, files: 3 }
+  })
+);
 
 mongoose.Promise = global.Promise;
 mongoose
-  .connect(keys.mongoURI, {
+  .connect(keys.mongoDB.uri, {
     useNewUrlParser: true
   })
   .then(() => console.log("MongoDB Connected..."))

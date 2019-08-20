@@ -12,15 +12,22 @@ const TicketSchema = new Schema({
     required: true,
     trim: true
   },
-  message: { type: String, required: true, trim: true },
-  adminResponse: String,
+  message: { type: String, required: true },
+  adminResponse: {
+    message: String,
+    date: { type: Date }
+  },
   status: {
     type: String,
     enum: ["open", "closed", "pending"],
     default: "open"
   },
   filesUploadedCustomer: [String],
-  filesUploadedAdmin: [String]
+  filesUploadedAdmin: [String],
+  date: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 module.exports = mongoose.model("ticket", TicketSchema);
