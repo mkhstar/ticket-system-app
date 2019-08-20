@@ -12,19 +12,16 @@ const deleteFiles = require("../utils/deleteFiles");
  */
 
 router.get("/", async (req, res) => {
-  const {
-    customerName,
-    page = 1,
-    limit = 10,
-    query = {},
-    sort = { date: 1 }
-  } = req.query;
+  const { search, page = 1, limit = 10, status, sortByDate = 1 } = req.query;
   try {
     const tickets = await Ticket.find({
-      customerName: new RegExp(customerName || ".*", "gi"),
-      ...query
+      $or: [
+        { customerName: new RegExp(search || ".*", "gi") },
+        { subject: new RegExp(search || ".*", "gi") }
+      ],
+      status: new RegExp(status || ".*", "gi")
     })
-      .sort(sort)
+      .sort({ date: sortByDate })
       .lean();
 
     return res.json(paginate(tickets, Number(page), Number(limit)));

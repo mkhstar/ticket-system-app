@@ -21,7 +21,6 @@ module.exports = (data, file) => {
     file.filesUploadedCustomer.truncated
   )
     errors.file = "File uploaded is too large Max: 5MB Max: 3 files";
-
   return {
     errors,
     isValid: isEmpty(errors)

@@ -15,7 +15,7 @@ const app = express();
  * @access  PUBLIC
  */
 app.get("/file/:filename", (req, res) => {
-  res.sendFile(path.join(__dirname, "files", req.params.filename));
+  res.download(path.join(__dirname, "files", req.params.filename));
 });
 
 app.use(bodyParser.json());

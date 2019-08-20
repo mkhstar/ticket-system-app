@@ -1,0 +1,24 @@
+username : epiz_21869784
+password : mypcpassword
+email : kuxama@axsup.net
+
+ftp-details
+
+FTP Username	: epiz_21869784
+FTP Password	: (the account password)
+FTP Hostname	: ftp.epizy.com
+FTP Port (optional): 	21
+
+mysql details
+
+MySQL hostname:	sql109.epizy.com
+MySQL username:	epiz_21869784
+database : epiz_21869784_onlinecases
+
+
+hostgator: cskyectdycivs
+
+
+fake_fb
+hastakastee@khtyler.com
+hastakastee

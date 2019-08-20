@@ -7,7 +7,7 @@ const uploadFiles = require("../utils/uploadFiles");
 const deleteFiles = require("../utils/deleteFiles");
 
 /**
- * @route   GET /api/customer
+ * @route   GET /api/customer?customerName=customer name
  * @desc    GET ALL TICKETS FROM CUSTOMER BY NAME
  * @access  PUBLIC
  */
@@ -17,17 +17,17 @@ router.get("/", async (req, res) => {
     customerName,
     page = 1,
     limit = 10,
-    query = {},
-    sort = { date: 1 }
+    status,
+    sortByDate = 1
   } = req.query;
   if (!customerName) return res.json({});
   else {
     try {
       const tickets = await Ticket.find({
         customerName,
-        ...query
+        status: new RegExp(status || ".*", "gi")
       })
-        .sort(sort)
+        .sort({ date: Number(sortByDate) })
         .lean();
 
       return res.json(paginate(tickets, Number(page), Number(limit)));
@@ -47,7 +47,7 @@ router.get("/:id", async (req, res) => {
   const { customerName } = req.query;
   const { id } = req.params;
 
-  if (!customerName || !id) return res.status(400).json("ERROR CREDENTIALS");
+  if (!customerName) return res.status(400).json("ERROR CREDENTIALS");
   else {
     try {
       const ticket = await Ticket.findOne({
@@ -92,7 +92,7 @@ router.post("/", async (req, res) => {
       }
 
       const ticketSaved = await ticket.save();
-      return res.json(ticketSaved);
+      return res.json(ticketSaved._id);
     } catch (err) {
       return res.status(500).json(err);
     }
@@ -140,14 +140,14 @@ router.put("/:id", async (req, res) => {
 });
 
 /**
- * @route   DELETE /api/customer
+ * @route   DELETE /api/customer/:id
  * @desc    DELETE ONE TICKET
  * @access  PUBLIC
  */
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  const { customerName } = req.body;
+  const { customerName } = req.query;
 
   if (!customerName) res.status(400).json("Please submit required fields");
   else {
@@ -155,10 +155,11 @@ router.delete("/:id", async (req, res) => {
       const ticket = await Ticket.findOne({ customerName, _id: id });
       if (!ticket) return res.status(404).json("Ticket doesn't exist");
       else {
-        await deleteFiles([
-          ...ticket.filesUploadedCustomer,
-          ...ticket.filesUploadedAdmin
-        ]);
+        const filesUploaded = [
+          ...(ticket.filesUploadedCustomer || []),
+          ...(ticket.filesUploadedAdmin || [])
+        ];
+        if (filesUploaded.length > 0) await deleteFiles(filesUploaded);
         await ticket.remove();
         return res.json("Successfully deleted ticket");
       }
