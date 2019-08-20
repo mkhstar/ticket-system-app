@@ -88,7 +88,6 @@
 <script>
 import Layout from "../Layout";
 import axios from "axios";
-import showToast from "../../../utils/showToast";
 import TicketsRow from "../blocks/tickets/TicketsRow";
 import Paginate from "vuejs-paginate";
 
